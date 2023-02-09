@@ -6,11 +6,13 @@
 [2. **Módulos**](#2-modulos)
 
 &nbsp;&nbsp;[2.1. AWS Step Functions](#2.1-aws-step-functions)
+
 &nbsp;&nbsp;&nbsp;[2.1.1 Descripción](#2.1.1-descripción)
+
 &nbsp;&nbsp;&nbsp;[2.1.2 Uso](#2.1.2-uso)
 
 # 1. **Descripción**
-> Este repositorio contiene los módulos de Terraform necesarios para poder implementar
+> Este repositorio contiene una carpeta por cada uno de los módulos de Terraform necesarios para poder implementar
 > el Planteamiento 1 de la inciativa de Secrets Manager.
 
 ## 1.1. **Requisitos**
