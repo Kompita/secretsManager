@@ -11,6 +11,18 @@
 
 &nbsp;&nbsp;&nbsp;[2.1.2 Uso](#2.1.2-uso)
 
+&nbsp;&nbsp;[2.2. AWS Config](#2.2-aws-config)
+
+&nbsp;&nbsp;&nbsp;[2.2.1 Descripción](#2.2.1-descripción)
+
+&nbsp;&nbsp;&nbsp;[2.2.2 Uso](#2.2.2-uso)
+
+&nbsp;&nbsp;[2.3. AWS Aurora Serverless v2](#2.3-aws-aurora-serverless-v2)
+
+&nbsp;&nbsp;&nbsp;[2.3.1 Descripción](#2.3.1-descripción)
+
+&nbsp;&nbsp;&nbsp;[2.3.2 Uso](#2.3.2-uso)
+
 # 1. **Descripción**
 > Este repositorio contiene una carpeta por cada uno de los módulos de Terraform necesarios para poder implementar
 > el Planteamiento 1 de la inciativa de Secrets Manager.
@@ -43,3 +55,10 @@ Este servico utilizará las reglas por defecto que implementa AWS para el servic
 
 En el módulo se utiliza el rol que utiliza AWS por defecto AWSServiceRoleForConfig que le proporciona acceso a todos los elementos que integra por defecto AWS Config. En caso de ser necesario se puede crear un rol que solo permita el acceso a los elementos requeridos
 ## 2.2.2 **Uso**
+
+## 2.3. **AWS Aurora Serverless v2**
+## 2.3.1 **Descripción**
+Módulo para el despliegue de la tabla de relaciones que permite relacionar cada secreto con los repositorios GIT afectados por la rotación del mismo.
+
+
+## 2.3.2 **Uso**
