@@ -43,6 +43,8 @@ A continuación se describen los módulos de terraform incluidos en este reposit
 ## 2.2.1 **Descripción**
 Módulo para el despliegue de AWS Config. 
 
+Utiliza las AWS Config Rules que representan la configuración deseada para un conjunto de recursos para toda una cuenta de AWS. Al añadir una regla, AWS compara los recursos con la condiciones impuestas. Después de esta evaluación inicial, las reglas se pueden lanzar de manera periódica, o cada vez que cambia un recurso. 
+
 Este servico utilizará las reglas por defecto que implementa AWS para el servicio Secrets Manager. 
 
 | Nombre                                          | Descripción                                                                                                         |
@@ -53,7 +55,7 @@ Este servico utilizará las reglas por defecto que implementa AWS para el servic
 | secretsmanager-secret-unused                    | Comprueba si los secretos han sido accedidos en un número especificado de días                                      |
 | secretsmanager-using-cmk                        | Comprueba si los secretos están encriptados usando la clave aws/secretsmanager o una clave propia creada en AWS KMS |
 
-En el módulo se utiliza el rol que utiliza AWS por defecto AWSServiceRoleForConfig que le proporciona acceso a todos los elementos que integra por defecto AWS Config. En caso de ser necesario se puede crear un rol que solo permita el acceso a los elementos requeridos
+
 ## 2.2.2 **Uso**
 
 ## 2.3. **AWS Aurora Serverless v2**
