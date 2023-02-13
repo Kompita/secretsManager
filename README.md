@@ -47,13 +47,15 @@ Utiliza las AWS Config Rules que representan la configuración deseada para un c
 
 Este servico utilizará las reglas por defecto que implementa AWS para el servicio Secrets Manager. 
 
-| Nombre                                          | Descripción                                                                                                         |
-|-------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
-| secretsmanager-rotation-enabled-check           | Comprueba que la rotación está configurada para los secretos almacenados                                            | 
-| secretsmanager-scheduled-rotation-success-check | Comprueba si la última rotación ha funcionado dentro de los parámetros de rotación configurados                     |
-| secretsmanager-secret-periodic-rotation         | Comprueba si los secretos han rotado dentro del número de dias especificado                                         | 
-| secretsmanager-secret-unused                    | Comprueba si los secretos han sido accedidos en un número especificado de días                                      |
-| secretsmanager-using-cmk                        | Comprueba si los secretos están encriptados usando la clave aws/secretsmanager o una clave propia creada en AWS KMS |
+| Nombre | Descripción | Parámetros |  |  |
+|---|---|---|---|---|
+| secretsmanager-rotation-enabled-check | Comprueba que la rotación está configurada para los secretos almacenados.<br>La regla es NON_COMPILANT si el secreto no está programado para la rotación o la frecuencia de rotado es mas alta que la especificada en el parametro maximumAllowedRotationFrequency | - maximumAllowedRotationFrequency (opcional): Frecuencia máxima de rotado del secreto en dias<br>- maximumAllowedRotationFrequencyInHours (opcional): Frecuencia maxima del rotado en horas |  |  |
+| secretsmanager-scheduled-rotation-success-check | Comprueba si la última rotación ha funcionado dentro de los parámetros de rotación configurados              | NA |  |  |
+| secretsmanager-secret-periodic-rotation | Comprueba si los secretos han rotado dentro del número de dias especificado.<br>La regla es NON_COMPILANT si el secreto no ha rotado en el periodo establecido por maxDaysSinceRotation, que es de  90 días por defecto.  | - maxDaysSinceRotation (opcional): Número máximo de días dentro de los cuales el secreto ha rotado. El valor por defecto es 90.  |  |  |
+| secretsmanager-secret-unused | Comprueba si los secretos han sido accedidos en un número especificado de días.<br>La regla es NON_COMPILANT si el secreto no ha sido accedido durante el periodo de días establecido por el parámetro unusedForDays, que es de 90 dias por defecto.  | - unusedForDays (opcional): Número de días en los que un secreto puede no haber sido accedido. El valor por defecto es de 90 días. |  |  |
+| secretsmanager-using-cmk | Comprueba si los secretos están encriptados usando la clave aws/secretsmanager o una clave propia creada en AWS KMS.<br>La regla es NON_COMPILANT si el secreto ha sido encriptado usando la clave aws/secretsmanager | - kmsKeyArns (opcional): Lista de ARNs de claves KMS separada por comas (CSV) para comprobar que se utilizan en el cifrado.  |  |  |
+
+
 
 
 ## 2.2.2 **Uso**
