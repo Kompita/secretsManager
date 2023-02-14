@@ -4,6 +4,7 @@ resource "aws_config_config_rule" "secretsmanager_rotation_enabled_check" {
     owner             = "AWS"
     source_identifier = "SECRETSMANAGER_ROTATION_ENABLED_CHECK"
   }
+  tags = var.tags
 }
 
 resource "aws_config_config_rule" "secretsmanager_rotation_success_check" {
@@ -12,6 +13,7 @@ resource "aws_config_config_rule" "secretsmanager_rotation_success_check" {
     owner             = "AWS"
     source_identifier = "SECRETSMANAGER_SCHEDULED_ROTATION_SUCCESS_CHECK"
   }
+  tags = var.tags
 }
 
 resource "aws_config_config_rule" "secretsmanager_periodic_rotation" {
@@ -20,6 +22,7 @@ resource "aws_config_config_rule" "secretsmanager_periodic_rotation" {
     owner             = "AWS"
     source_identifier = "SECRETSMANAGER_SECRET_PERIODIC_ROTATION"
   }
+  tags = var.tags
 }
 
 resource "aws_config_config_rule" "secretsmanager_secret_unused" {
@@ -28,6 +31,7 @@ resource "aws_config_config_rule" "secretsmanager_secret_unused" {
     owner             = "AWS"
     source_identifier = "SECRETSMANAGER_SECRET_UNUSED"
   }
+  tags = var.tags
 }
 
 resource "aws_config_config_rule" "secretsmanager_secret_using_cmk" {
@@ -36,4 +40,5 @@ resource "aws_config_config_rule" "secretsmanager_secret_using_cmk" {
     owner             = "AWS"
     source_identifier = "SECRETSMANAGER_USING_CMK"
   }
+  tags = var.tags
 }

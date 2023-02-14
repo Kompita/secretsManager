@@ -15,4 +15,5 @@ provider "aws" {
 
 module "awsconfig" {
   source = "./awsconfig"
+  tags = local.tags
 }
