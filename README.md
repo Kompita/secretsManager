@@ -64,5 +64,60 @@ Este servico utilizará las reglas por defecto que implementa AWS para el servic
 ## 2.3.1 **Descripción**
 Módulo para el despliegue de la tabla de relaciones que permite relacionar cada secreto con los repositorios GIT afectados por la rotación del mismo.
 
+Crea un clúster de tipo provisioned ... TODO
+
+### Recursos
+Este módulo crea los siguientes recursos:
+
+Recurso | Tipo de Recurso
+ --- | ---
+`aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-dbcluster-01` | Clúster Aurora PostgreSQL
+`aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-instance-01` | Instancia Aurora PostgreSQL Serverless
+
+### Parámetros de Entrada
+Variable | Tipo | Descripción | Valor por Defecto | Requerido | Ejemplo
+ --- | --- | --- | --- | --- | ---
+engine_version | string | Versión Aurora PostgreSQL | `10.7` | no | `10.7`
+master_username | string | Nombre del Usuario Maestro de la BD | `system_aws` | no | `admin`
+master_password | string | Contraseña del Usuario Maestro de la BD, si no se provee se generará una aleatoria | ` ` | no | `p4Ss#123456`
+environment | string | Identificador del Entorno siguiendo el estándar de nomenclatura de Correos | | sí | `d`
+aws_region_id | string | Identificador del la Región AWS siguiendo el estándar de nomenclatura de Correos | | sí | `ir`
+prod | bool | True si es un entorno de producción | `false` | no | `true`
+dbname | string | Identificador de la BD | | sí | `myApp`
+db_subnet_group_name | string | DBSubnetGroup donde se creará el clúster | `aw${var.aws_region_id}-${var.environment}-d0-subnet-group-01` | no | `awir-d-d0-subnet-group-01`
+vpc_security_group_ids | list(string) | Lista de los 'security groups' que se enlazarán al nuevo clúster | | sí | `["sg-0123456"]`
+tags | map(string) | Map con todos los tags a aplicar a los recursos | `{}` | no | `{ "Client" = "ClientName", "Environment" = "Test" }`
+
+### Parámetros de Salida
+Variable | Tipo | Descripción | Ejemplo
+ --- | --- | --- | ---
+cluster_id | string | Id del Clúster Aurora | `awir-d-myApp-rds-dbcluster-01`
+cluster_arn | string | ARN del Clúster Aurora | `arn:aws:rds:eu-west-1:123456789012:cluster:awir-d-myApp-rds-dbcluster-01`
+writer_endpoint | string | Endpoint del Clúster Aurora  | `awir-d-myApp-rds-dbcluster-01.cluster-123456789012.eu-west-1.rds.amazonaws.com:5444`
+reader_endpoint | string | Endpoint de solo lectura  del Clúster Aurora |
+master_username | string | Nombre del Usuario Maestro de la BD | `admin`
+master_password | string | Contraseña del Usuario Maestro de la BD | `p4Ss#123456`
 
 ## 2.3.2 **Uso**
+```terraform
+provider "aws" {}
+
+module "db" {
+  source                 = "git::https://ic.correos.es/git/arquitectura/ModulosTerraform/aws-rds-aurora-serverless-postgresql.git?ref=master"
+  prod                   = false
+  environment            = "d"
+  aws_region_id          = "ir"
+  dbname                 = "myApp"
+  vpc_security_group_ids = ["sg-1234567"]
+  tags                   = {
+    Organizacion        = "myOrg"
+    Proyecto            = "myProj"
+    Entorno             = "Devel"
+    Criticidad          = "Criticidad"
+    Uso                 = "Uso"
+    Departamento        = "Departamento"
+    ClienteDeNegocio    = "ClienteDeNegocio"
+    AreaResponsableDOTI = "AreaResponsableDOTI"
+  }
+}
+```
