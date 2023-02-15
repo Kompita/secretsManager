@@ -62,9 +62,15 @@ Este servico utilizará las reglas por defecto que implementa AWS para el servic
 
 ## 2.3. **AWS Aurora Serverless v2**
 ## 2.3.1 **Descripción**
-Módulo para el despliegue de la tabla de relaciones que permite relacionar cada secreto con los repositorios GIT afectados por la rotación del mismo.
+Módulo para el despliegue de una base de datos Aurora con motor PostgreSQL en configuración "serverless" (<https://aws.amazon.com/rds/aurora/serverless/>), para alojar la tabla de relaciones que permita relacionar cada secreto con los repositorios GIT afectados por la rotación del mismo.
 
 Crea un clúster de tipo provisioned ... TODO
+
+    - explicar por qué no se usa un cluster serverless
+      - cluster serverless no puede contener instancias provisioned (COMPROBAR)
+        - con cluster provisioned se pueden usar tanto instancias provisioned como serverless
+      - si se empieza con cluster serverless, no se puede volver a uno provisioned
+        - con un cluster provisioned, se puede hacer el cambio a serverless
 
 ### Recursos
 Este módulo crea los siguientes recursos:
@@ -99,6 +105,7 @@ master_username | string | Nombre del Usuario Maestro de la BD | `admin`
 master_password | string | Contraseña del Usuario Maestro de la BD | `p4Ss#123456`
 
 ## 2.3.2 **Uso**
+
 ```terraform
 provider "aws" {}
 
