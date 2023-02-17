@@ -13,7 +13,14 @@ provider "aws" {
   profile = var.execution_profile
 }
 
+/*
 module "awsconfig" {
   source = "./awsconfig"
   tags = local.tags
+}*/
+
+module "eventbridge" {
+  source = "./eventbridge"
+  tags = local.tags
+  target_arn = "arn:aws:lambda:eu-west-1:936716798377:function:test-lara-event-from-eventbridge"
 }

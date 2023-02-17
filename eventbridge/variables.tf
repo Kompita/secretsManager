@@ -3,3 +3,8 @@ variable "tags" {
   default = {}
   description = "tags for resources"
 }
+
+variable "target_arn" {
+  type = string
+  description = "target arn"
+}
