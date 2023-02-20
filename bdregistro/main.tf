@@ -14,16 +14,19 @@ resource "aws_rds_cluster" "this" {
   engine_mode                           = "provisioned"
   master_username                       = var.master_username
   master_password                       = local.master_password
-  skip_final_snapshot                   = false
-  final_snapshot_identifier             = "aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-snapshot-01"
+  skip_final_snapshot                   = true
+  # skip_final_snapshot                   = false
+  # final_snapshot_identifier             = "aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-snapshot-01"
   deletion_protection                   = true
-  db_subnet_group_name                  = local.db_subnet_group_name
-  vpc_security_group_ids                = var.vpc_security_group_ids
+  # db_subnet_group_name                  = local.db_subnet_group_name
+  # vpc_security_group_ids                = var.vpc_security_group_ids
   # port                                  = 5444: Aurora Serverless currently doesn't support using a custom database port.
-  backup_retention_period               = 7
-  preferred_backup_window               = "23:30-00:30"
+  # backup_retention_period               = 7
+  # preferred_backup_window               = "23:30-00:30"
 
   # 'scaling_configuration' is only valid when engine_mode is set to serverless.
+  # El clúster tiene que tener este atributo para poder añadir una instancia de clase "db.serverless". Mirar:
+  # https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.requirements.html
   serverlessv2_scaling_configuration {
     # These capacities are not instances they are Aurora capacity units (ACUs). Have a look at:
     # https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.how-it-works.html
