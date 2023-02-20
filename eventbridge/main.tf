@@ -61,28 +61,14 @@ resource "aws_sqs_queue" "eventbridge_dlq_example" {
 
 resource "aws_sqs_queue_policy" "eventbridge_dlq_policy" {
   queue_url = aws_sqs_queue.eventbridge_dlq_example.id
-  policy    = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Id": "sqspolicy",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "events.amazonaws.com"
-      },
-      "Action": "sqs:SendMessage",
-      "Resource": "${aws_sqs_queue.eventbridge_dlq_example.arn}",
-      "Condition": {
-        "ArnEquals": {
-          "aws:SourceArn": "${aws_cloudwatch_event_rule.rotation_rule.arn}"
-        }
-      }
-    }
-  ]
+
+  policy = templatefile("${path.module}/eventbridge_dlq_policy.tftpl", {
+    "RESOURCE_ARN" = "${aws_sqs_queue.eventbridge_dlq_example.arn}",
+    "SOURCE_ARN" = "${aws_cloudwatch_event_rule.rotation_rule.arn}"
+  })
 }
-POLICY
-}
+
+
 /*
 resource "aws_cloudwatch_event_target" "sqs_target_example" {
   rule           = aws_cloudwatch_event_rule.rotation_rule.name
