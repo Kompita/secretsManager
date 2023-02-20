@@ -16,7 +16,7 @@ resource "aws_cloudwatch_event_target" "rotation_event_target" {
   arn            = var.target_arn
   event_bus_name = aws_cloudwatch_event_bus.rotation_bus.name
     dead_letter_config {
-    arn = aws_sqs_queue.eventbridge_dlq_example.arn
+    arn = aws_sqs_queue.rotation_eventbridge_dlq_example.arn
   }
 }
 
@@ -31,7 +31,7 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_lambda_example" {
 
 //TODO: se lanza una cola sqs para ejemplificar como añadir una dlq. Utilizar una existente que nos provean
 resource "aws_sqs_queue" "rotation_eventbridge_dlq_example" {
-  name                      = "eventbridge_dlq_example"
+  name                      = "rotation_eventbridge_dlq_example"
   delay_seconds             = 90
   max_message_size          = 2048
   message_retention_seconds = 86400
