@@ -86,6 +86,8 @@ Crea un clúster de tipo provisioned ... TODO
       - si se empieza con cluster serverless, no se puede volver a uno provisioned
         - con un cluster provisioned, se puede hacer el cambio a serverless
 
+Versión minima de Aurora postgresql 13.6 ... TODO
+
 #### Recursos
 
 Este módulo crea los siguientes recursos:
@@ -99,7 +101,7 @@ Recurso | Tipo de Recurso
 
 Variable | Tipo | Descripción | Valor por Defecto | Requerido | Ejemplo
  --- | --- | --- | --- | --- | ---
-engine_version | string | Versión Aurora PostgreSQL | `10.7` | no | `10.7`
+engine_version | string | Versión Aurora PostgreSQL | `13.6` | no | `13.6`
 master_username | string | Nombre del Usuario Maestro de la BD | `system_aws` | no | `admin`
 master_password | string | Contraseña del Usuario Maestro de la BD, si no se provee se generará una aleatoria | `` | no | `p4Ss#123456`
 environment | string | Identificador del Entorno siguiendo el estándar de nomenclatura de Correos | | sí | `d`
