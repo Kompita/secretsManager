@@ -24,6 +24,12 @@
 
 &nbsp;&nbsp;&nbsp;[2.3.2 Uso](#2.3.2-uso)
 
+&nbsp;&nbsp;[2.4. AWS EventBridge](#2.4-aws-EventBridge)
+
+&nbsp;&nbsp;&nbsp;[2.4.1 Descripción](#2.4.1-descripción)
+
+&nbsp;&nbsp;&nbsp;[2.4.2 Uso](#2.4.2-uso)
+
 # 1. **Descripción**
 
 > Este repositorio contiene una carpeta por cada uno de los módulos de Terraform necesarios para poder implementar
@@ -141,3 +147,9 @@ module "db" {
   }
 }
 ```
+
+# 2.4. **AWS EventBridge**
+
+### 2.4.1 **Descripción**
+
+### 2.4.2 **Uso**
