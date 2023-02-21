@@ -7,7 +7,7 @@ resource "random_password" "db_pass" {
 }
 
 resource "aws_rds_cluster" "this" {
-  cluster_identifier                    = "aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-dbcluster-01"
+  cluster_identifier                    = "correos-prueba-aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-dbcluster-01"
   engine                                = "aurora-postgresql"
   engine_version                        = var.engine_version
   storage_encrypted                     = true
@@ -17,8 +17,9 @@ resource "aws_rds_cluster" "this" {
   skip_final_snapshot                   = true
   # skip_final_snapshot                   = false
   # final_snapshot_identifier             = "aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-snapshot-01"
-  deletion_protection                   = true
+  # deletion_protection                   = true
   # db_subnet_group_name                  = local.db_subnet_group_name
+  db_subnet_group_name = "grupo01"
   # vpc_security_group_ids                = var.vpc_security_group_ids
   # port                                  = 5444: Aurora Serverless currently doesn't support using a custom database port.
   # backup_retention_period               = 7
@@ -37,14 +38,14 @@ resource "aws_rds_cluster" "this" {
   tags = merge(
     local.tags,
     {
-      Name = "aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-dbcluster-01"
-      "correos:nombre" = "aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-dbcluster-01"
+      Name = "correos-prueba-aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-dbcluster-01"
+      "correos:nombre" = "correos-prueba-aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-dbcluster-01"
     }
   )
 }
 
 resource "aws_rds_cluster_instance" "example" {
-  identifier         = "aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-instance-01"
+  identifier         = "correos-prueba-aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-instance-01"
   cluster_identifier = aws_rds_cluster.this.id
   instance_class     = "db.serverless"
   engine             = aws_rds_cluster.this.engine
@@ -52,8 +53,8 @@ resource "aws_rds_cluster_instance" "example" {
   tags               = merge(
     local.tags,
     {
-      Name = "aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-instance-01"
-      "correos:nombre" = "aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-instance-01"
+      Name = "correos-prueba-aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-instance-01"
+      "correos:nombre" = "correos-prueba-aw${var.aws_region_id}-${var.environment}-${var.dbname}-rds-instance-01"
     }
   )
 }
