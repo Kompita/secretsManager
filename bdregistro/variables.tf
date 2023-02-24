@@ -1,3 +1,8 @@
+variable "cluster_identifier" {
+  type        = string
+  description = "Name to identify the cluster"
+}
+
 variable "engine_version" {
   type        = string
   default     = "13.6"
@@ -10,42 +15,27 @@ variable "master_username" {
   description = "Master Username to be used"
 }
 
-variable "master_password" {
-  type        = string
-  default     = ""
-  description = "Master Password to be used"
-}
-
-variable "environment" {
-  type = string
-  description = "Environment identifier as Correos standard naming"
-}
-
-variable "aws_region_id" {
-  type = string
-  description = "aws region identifier as Correos standard naming"
-}
-
-variable "prod" {
-  type = bool
-  default = false
-  description = "production environment"
-}
-
 variable "dbname" {
-  type = string
+  type        = string
+  description = "Name for an automatically created database on cluster creation"
 }
 
-# variable "db_subnet_group_name" {
-#   type = string
-#   default = ""
-# }
-# 
-# variable "vpc_security_group_ids" {
-#   type = list(string)
-# }
+variable "final_snapshot_identifier" {
+  type        = string
+  description = "The name of your final DB snapshot when this DB cluster is deleted"
+}
 
-variable "tags" {
-  type = map(string)
-  default = {}
+variable "db_subnet_group_name" {
+  type        = string
+  description = "A DB subnet group to associate with this DB instance"
+}
+
+variable "vpc_security_group_ids" {
+  type        = list(string)
+  description = "List of VPC security groups to associate with the Cluster"
+}
+
+variable "cluster_instance_identifier" {
+  type        = string
+  description = "Name to identify the cluster instance"
 }
