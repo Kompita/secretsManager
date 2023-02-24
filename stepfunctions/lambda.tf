@@ -15,7 +15,7 @@ resource "aws_lambda_function" "lambda_function" {
 // Zip of lambda handler
 data "archive_file" "lambda_zip_file" {
   output_path = "${path.module}/lambda_zip/lambda.zip"
-  source_dir  = "${path.module}/../lambda"
+  source_dir  = "${path.module}/lambda"
   excludes    = ["__init__.py", "*.pyc"]
   type        = "zip"
 }
@@ -44,4 +44,55 @@ data "aws_iam_policy_document" "lambda_assume_role_policy_document" {
       type        = "Service"
     }
   }
+}
+
+
+# resource "aws_iam_policy_attachment" "lambda_basic_execution_role_policy" {
+#   name = "aws_iam_policy_attachment"
+#   roles = ["${aws_iam_role.lambda_assume_role.name}"]
+#   # policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+#   policy_arn = aws_iam_policy.policy.arn
+# }
+resource "aws_iam_role_policy" "lambda_function_policy" {
+  name    = "test-lambda-function-policy"
+  role    = aws_iam_role.lambda_assume_role.id
+  policy =  <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+  ]
+} 
+
+  EOF
+}
+
+resource "aws_iam_policy" "policy" {
+  name = "test-lara-policy"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+  ]
+} 
+
+  EOF
 }

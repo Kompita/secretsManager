@@ -1,0 +1,11 @@
+{
+    "Comment": "Invoke AWS Lambda from AWS Step Functions with Terraform",
+    "StartAt": "HelloWorld",
+    "States": {
+        "HelloWorld": {
+            "Type": "Task",
+            "Resource": "${FUNCTION_ARN}",
+            "End": true
+        }
+    }
+}

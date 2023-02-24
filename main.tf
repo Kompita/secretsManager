@@ -20,11 +20,11 @@ module "awsconfig" {
 }*/
 
 
-module "eventbridge" {
-  source = "./eventbridge"
-  tags = local.tags
-  target_arn = "arn:aws:lambda:eu-west-1:936716798377:function:test-lara-event-from-eventbridge"
-}
+# module "eventbridge" {
+#   source = "./eventbridge"
+#   tags = local.tags
+#   target_arn = "arn:aws:lambda:eu-west-1:936716798377:function:test-lara-event-from-eventbridge"
+# }
 
 
 /*
@@ -63,3 +63,9 @@ resource "aws_serverlessapplicationrepository_cloudformation_stack" "postgres-ro
 data "aws_partition" "current" {}
 data "aws_region" "current" {}
 */
+
+module "stepfunctions" {
+  source = "./stepfunctions"
+  lambda_function_name = "test-lambda"
+  step_function_name= "test-stepfunction"
+}

@@ -2,56 +2,20 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
   name     = var.step_function_name
   role_arn = aws_iam_role.step_function_role.arn
 
-  definition = <<EOF
-  {
-    "Comment": "Invoke AWS Lambda from AWS Step Functions with Terraform",
-    "StartAt": "HelloWorld",
-    "States": {
-      "HelloWorld": {
-        "Type": "Task",
-        "Resource": "${aws_lambda_function.lambda_function.arn}",
-        "End": true
-      }
-    }
-  }
-  EOF
+  definition = templatefile("${path.module}/stepfunctions_files/stepfunction_definition.tftpl",{
+    "FUNCTION_ARN" = "${aws_lambda_function.lambda_function.arn}"
+  })
 }
 
 resource "aws_iam_role" "step_function_role" {
   name               = "${var.step_function_name}-role"
-  assume_role_policy = <<-EOF
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Action": "sts:AssumeRole",
-        "Principal": {
-          "Service": "states.amazonaws.com"
-        },
-        "Effect": "Allow",
-        "Sid": "StepFunctionAssumeRole"
-      }
-    ]
-  }
-  EOF
+  assume_role_policy = templatefile("${path.module}/stepfunctions_files/assume_role_policy.tftpl",{})
 }
 
 resource "aws_iam_role_policy" "step_function_policy" {
   name    = "${var.step_function_name}-policy"
   role    = aws_iam_role.step_function_role.id
-
-  policy  = <<-EOF
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Action": [
-          "lambda:InvokeFunction"
-        ],
-        "Effect": "Allow",
-        "Resource": "${aws_lambda_function.lambda_function.arn}"
-      }
-    ]
-  }
-  EOF
+  policy = templatefile("${path.module}/stepfunctions_files/invoke_function_policy.tftpl", {
+    "FUNCTION_ARN" =  "${aws_lambda_function.lambda_function.arn}"
+  })
 }
