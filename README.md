@@ -78,7 +78,7 @@ Este servico utilizará las reglas por defecto que implementa AWS para el servic
 
 Módulo para el despliegue de una base de datos Aurora con motor PostgreSQL en configuración "serverless" (<https://aws.amazon.com/rds/aurora/serverless/>), para alojar la tabla de relaciones que permita relacionar cada secreto con los repositorios GIT afectados por la rotación del mismo.
 
-El clúster se crea de manera aprovisionada (`provisioned`), siendo la instancia de clase Serverless.
+El clúster se crea de manera aprovisionada (*provisioned*), siendo la instancia de clase Serverless.
 
 Para poder lanzar una instancia Serverless v2 se necesita que la versión de Aurora PostgreSQL sea 13.6 o mayor. Se ha elegido esta versión como el valor por defecto de `engine_version`, pudiendo cambiarse por otra versión siempre que esta sea mayor.
 
@@ -110,9 +110,9 @@ cluster_instance_identifier | string | Identificador para la instancia siguiendo
 Variable | Tipo | Descripción | Ejemplo
  --- | --- | --- | ---
 cluster_id | string | Id del Clúster Aurora | `awir-l-myapp-rds-dbcluster-01`
-cluster_arn | string | ARN del Clúster Aurora | `arn:aws:rds:eu-west-1:123456789012:cluster:awir-l-myapp-rds-dbcluster-01`
-writer_endpoint | string | Endpoint del Clúster Aurora  | `awir-l-myapp-rds-dbcluster-01.cluster-123456789012.eu-west-1.rds.amazonaws.com:5444`
-reader_endpoint | string | Endpoint de solo lectura  del Clúster Aurora |
+cluster_arn | string | ARN del Clúster Aurora | `arn:aws:rds:eu-west-1:0123456789:cluster:awir-l-myapp-rds-dbcluster-01`
+writer_endpoint | string | Endpoint del Clúster Aurora  | `awir-l-myapp-rds-dbcluster-01.cluster-0123456789.eu-west-1.rds.amazonaws.com:5000`
+reader_endpoint | string | Endpoint de solo lectura  del Clúster Aurora | `awir-l-myapp-rds-dbcluster-01.cluster-0123456789.eu-west-1.rds.amazonaws.com:5000`
 master_username | string | Nombre del Usuario Maestro de la BD | `admin`
 master_password | string | Contraseña del Usuario Maestro de la BD | `x+t72acdqrmpct(J]k?NgZ6Ls&tvewh{`
 
