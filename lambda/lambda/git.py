@@ -3,51 +3,60 @@
 ## modificar el secreto y el secreto.
 
 import os
-import sys
-import logging
+import json
+import boto3
 import subprocess
+import yq
 
-sys.path.append('./libs/pyyaml')
+## funcion para recuperar el valor del secreto a rotar
+def getCredentialsSM(secret_name):
+    print("Lambda Git getGredentialsSM...")  
+    
+    credential = {}      
+    client = boto3.client(
+      service_name='secretsmanager',
+      region_name=os.environ['AWS_REGION']   
+    )    
+    get_secret_value_response = client.get_secret_value(
+      SecretId=secret_name
+    )    
+    secret = json.loads(get_secret_value_response['SecretString'])    
+    credential['value'] = secret['value']
+    return credential
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
 
-
-# Parametros de entrada:
-## Sercret Name
 def lambda_handler(event, context):
-    logger.info(f'Lambda Git: {event}')    
+    print("Lambda Git lambda_handler...")        
+
+    print('event:', json.dumps(event))
+    print('queryStringParameters:', json.dumps(event['queryStringParameters']))
     
-    request_data = event['queryStringParameters']
-    secret_name = request_data['secret_name']
-    secret_value = request_data['secret_value']
-    #path_url = "soporte-alma-diagramas-conf-k8s/secret/"
-    path_secret = request_data['path_secret']
-    #repo_url "https://icprov.correos.es/git/soporte/alma/ri/soporte-alma-diagramas-conf-k8s"
-    repo_url = request_data['repo_url']
-    secret_file = request_data['secret_file']
-    
+    path_secret = event['queryStringParameters']['path_secret']    
+    secret_name = event['queryStringParameters']['secret_name']       
+    credential = getCredentialsSM(secret_name)
+    git_token = '' ## Donde almacenarlo?
+    repo_url = event['queryStringParameters']['repo_url']
+            
     # Se clona el repositorio en el directorio /tmp
     try:
-        subprocess.check_call(['git', 'clone', repo_url, '/tmp/repo'])
+        subprocess.check_call(['git', 'clone', 'https://'+ git_token + repo_url, '/tmp/repo'])
+        print("Successfully cloned the repository: ", e)
     except subprocess.CalledProcessError as e:
-        print("Error al clonar el repositorio: ", e)
-        return
-
+        print("Error to clone repository: ", e)
+    
     # Se actualiza el secrets.yaml con el valor del secreto  
     # Acceder al path del fichero secrets.yaml
     os.chdir(path_secret)
     print("Path to conf-k8s secret directory:", os.getcwd())
     
     # Actualizar el yaml
-    yq w secret_file "data.BBDD_PASSWORD_APP.value" secret_value
-    
+    #yq -yi ".data."secret_name =  credential['value'] secret_file 
+      
     # Se realiza el commit y el push al repositorio
     try:
         subprocess.check_call(['git', 'commit', '-m', 'AWS Secrets Manager: RDS secret rotation'])
         subprocess.check_call(['git', 'push'], cwd="/tmp/repo")
-        logger.info(f'Lambda Git: push')            
+        print("Successfully pushed code to the repository: ", e)       
     except subprocess.CalledProcessError as e:             
-        print("Error al hacer push: ", e)
-        return
-    print("El repositorio de código se actualiza con éxito")
+        print("Error pushing code...", e)        
+  
